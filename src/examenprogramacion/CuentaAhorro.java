@@ -57,20 +57,29 @@ public final class CuentaAhorro extends CuentaBancaria
     {
         if(this.cuentaActiva == true && super.saldoDisponible>cantidadRetiro){
             super.saldoDisponible -= cantidadRetiro;
+            this.ultimaModificacion = Calendar.getInstance();
             return true;
         }else{
             this.cuentaActiva = true;
             super.saldoDisponible -=cantidadRetiro;
+            this.ultimaModificacion = Calendar.getInstance();
             return true;
         }
         
     }
     
     
-    public final boolean desactivar(){
-        
+    public final void desactivar(){
+        Calendar  hoy = Calendar.getInstance();
+        hoy.add(Calendar.MONTH, -6);
+        if(hoy.before(this.ultimaModificacion)){
+            this.cuentaActiva = false;
+        }
     }
     
-    
+    @Override
+    public String toString(){
+        return super.toString()+" cuenta Activa o Desactivada"+ cuentaActiva;
+    }
     
 }
