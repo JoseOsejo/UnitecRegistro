@@ -5,10 +5,72 @@
  */
 package examenprogramacion;
 
+import java.util.Calendar;
+
 /**
  *
  * @author jcoq2
  */
-public class CuentaAhorro {
+public final class CuentaAhorro extends CuentaBancaria
+{
+    private Calendar ultimaModificacion;
+    private boolean cuentaActiva;
+
+    public CuentaAhorro(int numeroCuenta, String nombreCliente) {
+        super(numeroCuenta, nombreCliente);
+        this.ultimaModificacion = Calendar.getInstance();
+        this.cuentaActiva = true;
+    }
+
+    public Calendar getUltimaModificacion() {
+        return ultimaModificacion;
+    }
+
+    public void setUltimaModificacion(Calendar ultimaModificacion) {
+        this.ultimaModificacion = ultimaModificacion;
+    }
+
+    public boolean isCuentaActiva() {
+        return cuentaActiva;
+    }
+
+    public void setCuentaActiva(boolean cuentaActiva) {
+        this.cuentaActiva = cuentaActiva;
+    }
+    
+    
+    @Override
+    public double deposito(double m){
+        if(this.cuentaActiva == true){
+            return super.deposito(m);
+        }else 
+        {
+            this.cuentaActiva = true;
+            double montoPorcentaje = m*0.9;
+            return super.saldoDisponible+=montoPorcentaje;
+        }
+        
+    }
+    
+    @Override
+    public boolean retiro(double cantidadRetiro)
+    {
+        if(this.cuentaActiva == true && super.saldoDisponible>cantidadRetiro){
+            super.saldoDisponible -= cantidadRetiro;
+            return true;
+        }else{
+            this.cuentaActiva = true;
+            super.saldoDisponible -=cantidadRetiro;
+            return true;
+        }
+        
+    }
+    
+    
+    public final boolean desactivar(){
+        
+    }
+    
+    
     
 }
